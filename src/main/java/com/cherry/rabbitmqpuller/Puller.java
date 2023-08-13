@@ -32,14 +32,6 @@ public class Puller {
             AMQP.Queue.DeclareOk declareOk = Inspector.inspectPassiveForPulling(channel);
             int messageCount = declareOk.getMessageCount();
             System.out.println("messageCount: " + messageCount);
-//            if (messageCount > 10) {
-//                while (messageCount > 0) {
-//                    Thread.sleep(1000);
-//                    this.pullMessage(channel);
-//                    declareOk = Inspector.inspectPassive(channel);
-//                    messageCount = declareOk.getMessageCount();
-//                }
-//            }
             boolean hasResponse = this.pullMessage(channel);
             while (hasResponse) {
                 hasResponse = this.pullMessage(channel);
