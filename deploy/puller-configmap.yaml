@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbit-mq-puller-config
+data:
+  application.yml: |
+    server:
+      port: 8080
+
+    spring:
+      rabbitmq:
+        host: rabbitmq-cluster.rabbitmq.svc.cluster.local
+        port: 5672
+        username: admin
+        password: admin

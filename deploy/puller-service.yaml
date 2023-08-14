@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbit-mq-puller
+spec:
+  selector:
+    app: rabbit-mq-puller
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

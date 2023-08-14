@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbit-mq-inspector-config
+data:
+  application.yml: |
+    server:
+      port: 8080
+
+    spring:
+      rabbitmq:
+        host: rabbitmq-cluster.rabbitmq.svc.cluster.local
+        port: 5672
+        username: admin
+        password: admin
+        listener:
+          simple:
+            acknowledge-mode: manual
+            retry:
+              enabled: true
+              initial-interval: 5000
+              max-attempts: 10
+              max-interval: 30000
+              multiplier: 3.0
+  communication.yml: |
+    spring:
+      cloud:
+        openfeign:
+          client:
+            config:
+              default:
+                connectTimeout: 5000
+                readTimeout: 5000
+                loggerLevel: basic
+              PullClient:
+                url: http://localhost:8883
