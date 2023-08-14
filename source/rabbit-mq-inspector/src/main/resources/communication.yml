@@ -1,0 +1,12 @@
+### openfeign
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: basic
+          PullClient:
+            url: http://localhost:8883
