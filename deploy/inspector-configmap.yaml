@@ -33,4 +33,4 @@ data:
                 readTimeout: 5000
                 loggerLevel: basic
               PullClient:
-                url: rabbit-mq-puller.default.svc.cluster.local
+                url: http://rabbit-mq-puller.default.svc.cluster.local
