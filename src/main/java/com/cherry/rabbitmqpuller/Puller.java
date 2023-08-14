@@ -1,6 +1,5 @@
 package com.cherry.rabbitmqpuller;
 
-import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -14,14 +13,11 @@ import java.util.concurrent.TimeoutException;
 public class Puller {
 
     private final ConnectionFactory connectionFactory;
-//    private final Inspector inspector;
 
     public Puller(
             ConnectionFactory connectionFactory
-//            , Inspector inspector
     ) {
         this.connectionFactory = connectionFactory;
-//        this.inspector = inspector;
     }
 
     public void pull() throws IOException, TimeoutException, InterruptedException {
@@ -29,9 +25,6 @@ public class Puller {
              Channel channel = connection.createChannel(false);
         ) {
 
-            AMQP.Queue.DeclareOk declareOk = Inspector.inspectPassiveForPulling(channel);
-            int messageCount = declareOk.getMessageCount();
-            System.out.println("messageCount: " + messageCount);
             boolean hasResponse = this.pullMessage(channel);
             while (hasResponse) {
                 hasResponse = this.pullMessage(channel);
