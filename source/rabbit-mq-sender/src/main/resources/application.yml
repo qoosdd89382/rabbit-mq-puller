@@ -7,12 +7,3 @@ spring:
     port: 5672
     username: admin
     password: admin
-    listener:
-      simple:
-        acknowledge-mode: manual
-        retry:
-          enabled: true
-          initial-interval: 5000
-          max-attempts: 10
-          max-interval: 30000
-          multiplier: 3.0

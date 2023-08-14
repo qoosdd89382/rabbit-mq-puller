@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbit-mq-sender
+  labels:
+    app: rabbit-mq-sender
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbit-mq-sender
+  template:
+    metadata:
+      labels:
+        app: rabbit-mq-sender
+    spec:
+      containers:
+        - name: rabbit-mq-sender
+          image: qoosdd89382/rabbit-mq-sender
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: rabbit-mq-sender-config
