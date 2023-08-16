@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbit-mq-puller
+  labels:
+    app: rabbit-mq-puller
+spec:
+  serviceName: rabbit-mq-puller
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rabbit-mq-puller
+  template:
+    metadata:
+      labels:
+        app: rabbit-mq-puller
+    spec:
+      containers:
+        - name: rabbit-mq-puller
+          image: qoosdd89382/rabbit-mq-puller
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: rabbit-mq-puller-config
