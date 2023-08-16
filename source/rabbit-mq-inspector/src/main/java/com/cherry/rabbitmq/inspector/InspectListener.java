@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 public class InspectListener {
 
     private final PullQueueInspector inspector;
-    private final PullClient puller;
+    private final PullerNotifier pullerNotifier;
 
     public InspectListener(
             PullQueueInspector inspector
-            , PullClient puller
+            , PullerNotifier pullerNotifier
     ) {
         this.inspector = inspector;
-        this.puller = puller;
+        this.pullerNotifier = pullerNotifier;
     }
 
     @RabbitListener(queues = { Constants.QUEUE_NAME_FOR_INSPECTING })
@@ -36,7 +36,7 @@ public class InspectListener {
                 Thread.sleep(1000);
 
                 // TODO: remote invoke
-                puller.pull();
+                pullerNotifier.notifyPuller();
             }
 
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);

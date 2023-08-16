@@ -1,23 +1,23 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: rabbit-mq-inspector
+  name: rabbit-mq-puller
   labels:
-    app: rabbit-mq-inspector
+    app: rabbit-mq-puller
 spec:
-  replicas: 1
+  serviceName: rabbit-mq-puller
+  replicas: 3
   selector:
     matchLabels:
-      app: rabbit-mq-inspector
+      app: rabbit-mq-puller
   template:
     metadata:
       labels:
-        app: rabbit-mq-inspector
+        app: rabbit-mq-puller
     spec:
-      serviceAccountName: rabbit-mq-inspector-sa
       containers:
-        - name: rabbit-mq-inspector
-          image: qoosdd89382/rabbit-mq-inspector
+        - name: rabbit-mq-puller
+          image: qoosdd89382/rabbit-mq-puller
           ports:
             - containerPort: 8080
           volumeMounts:
@@ -26,4 +26,4 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: rabbit-mq-inspector-config
+            name: rabbit-mq-puller-config
