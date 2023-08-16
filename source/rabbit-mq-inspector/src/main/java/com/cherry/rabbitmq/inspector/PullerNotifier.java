@@ -18,13 +18,9 @@ import java.util.List;
 public class PullerNotifier {
 
     private final static String STATEFUL_SETS_POD_LABEL = "statefulset.kubernetes.io/pod-name";
-//    public static void main(String[] args) throws IOException {
-//    }
 
     public void notifyPuller() throws IOException {
-
-        // 假設你已經獲得了一系列的DNS名稱
-        List<String> podDnsNames = new PullerNotifier().findPodsDns();
+        List<String> podDnsNames = this.findPodsDns();
 
         for (String dnsName : podDnsNames) {
             PullClient podClient = Feign.builder()
