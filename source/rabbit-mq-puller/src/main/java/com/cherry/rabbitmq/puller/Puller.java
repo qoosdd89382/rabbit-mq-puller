@@ -1,5 +1,6 @@
 package com.cherry.rabbitmq.puller;
 
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -18,6 +19,16 @@ public class Puller {
             ConnectionFactory connectionFactory
     ) {
         this.connectionFactory = connectionFactory;
+    }
+
+    public void pull(Channel channel) throws IOException, TimeoutException, InterruptedException {
+        try (channel) {
+            boolean hasResponse = this.pullMessage(channel);
+            while (hasResponse) {
+                hasResponse = this.pullMessage(channel);
+            }
+
+        }
     }
 
     public void pull() throws IOException, TimeoutException, InterruptedException {
