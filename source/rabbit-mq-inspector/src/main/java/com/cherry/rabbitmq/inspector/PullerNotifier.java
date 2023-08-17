@@ -22,10 +22,21 @@ public class PullerNotifier {
     public void notifyPuller() throws IOException {
         List<String> podDnsNames = this.findPodsDns();
 
+        if (podDnsNames.isEmpty()) {
+            PullClient podClient = Feign.builder()
+                    .target(PullClient.class, "http://localhost:8883");
+            try {
+                String response = podClient.pull();
+                System.out.println("local response: " + response);
+            } catch (Exception e) {
+                System.out.println("local failed");
+            }
+            return;
+        }
+
         for (String dnsName : podDnsNames) {
             PullClient podClient = Feign.builder()
-                    .target(PullClient.class, "http://" + dnsName + ":8080");  // 假設你的服務運行在8080端口
-
+                    .target(PullClient.class, "http://" + dnsName + ":8080");
             try {
                 String response = podClient.pull();
                 System.out.println("Response from " + dnsName + ": " + response);
